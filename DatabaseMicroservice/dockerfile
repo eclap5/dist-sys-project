@@ -2,13 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY DatabaseMicroservice/package*.json ./
 
 RUN echo "List content in /app" && pwd && ls -la
 
 RUN npm i
 
-COPY . .
+COPY DatabaseMicroservice/. .
 
 EXPOSE 3001
 
