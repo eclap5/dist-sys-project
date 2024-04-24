@@ -9,12 +9,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    steps: 
+    steps:      
       - name: Checkout Repository to Runner Machine
         uses: actions/checkout@v4
 
       - name: Login to ACR
-        uses: azure/docker-login@v3
+        uses: azure/docker-login@v2
         with:
           login-server: reservationsacr.azurecr.io
           username: reservationsacr
