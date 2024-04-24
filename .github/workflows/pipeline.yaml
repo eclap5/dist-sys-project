@@ -23,7 +23,7 @@ jobs:
       - name: Build and Push Docker Images
         run: |
           docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }} -f ListActivities/Dockerfile .
-          docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} -f DatabaseMicroservice/dockerfile .
+          docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} -f DatabaseMicroservice/Dockerfile .
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }}
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }}
 
