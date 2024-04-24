@@ -26,12 +26,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Reservation = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 let reservationSchema = new mongoose_1.Schema({
-    _id: { type: String, required: true },
     user: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    startDateTime: { type: String, required: true },
-    endDateTime: { type: String, required: true },
+    startDateTime: { type: Date, required: true },
+    endDateTime: { type: Date, required: true },
 });
 const Reservation = mongoose_1.default.model("Reservation", reservationSchema);
 exports.Reservation = Reservation;
