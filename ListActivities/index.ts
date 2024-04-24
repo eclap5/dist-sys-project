@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 
 interface Reservation {
-    id: string
+    id?: string
     title: string
     user: string
     description: string
@@ -18,15 +18,42 @@ interface Reservation {
 }
 
 app.get('/api/reservations', async (req: Request, res: Response) => {
-    const data = await fetch('http://localhost:3001/api/reservations')
-    const reservations: Reservation[] = await data.json()
-    res.json(reservations)
+    try {
+        const response = await fetch('http://localhost:3001/api/reservations', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        if (!response.ok) {
+            return res.status(404).json({ message: 'Error fetching reservations' })
+        }
+        const reservations: Reservation[] = await response.json()
+        console.log(reservations)
+        res.status(200).json(reservations)
+    } catch (error: any) {
+        console.error(`Error during user registration: ${error}`)
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }      
 })
 
-app.post('/api/reservations', (req: Request, res: Response) => {
+app.post('/api/reservations', async (req: Request, res: Response) => {
+    console.log(req.body)
     const reservation: Reservation = req.body
-    
-    res.json(reservation)
+
+    const response = await fetch('http://localhost:3001/api/reservations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reservation)
+    })
+
+    if (!response.ok) {
+        return res.status(400).json({ message: 'Error creating reservation' })
+    }
+    const data = await response.json()
+    return res.status(200).json({ message: data.message })
 })
 
 app.listen(PORT, () => {

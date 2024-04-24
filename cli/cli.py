@@ -2,7 +2,7 @@ import requests
 import json
 from datetime import datetime
 
-REQ_ENDPOINT = "https://activity-controller-app.azurewebsites.net/api/reservations"
+REQ_ENDPOINT = "http://localhost:5050/api/reservations"
 RSTR = "\033[91m"
 GSTR = "\033[92m"
 CEND = "\033[0m"
@@ -24,9 +24,11 @@ def makeReservation():
     endTime = input("Input ending time for reservation (HH:MM): ")
 
     startDateTime = validateTime(date, startTime)
+    if not startDateTime: # Ensuring no bad or nonexisting data is sent
+        return
     endDateTime = validateTime(date, endTime)
 
-    if not startDateTime or not endDateTime: # Ensuring no bad or nonexisting data is sent
+    if not endDateTime: # Ensuring no bad or nonexisting data is sent
         return
     
     data = {
@@ -37,10 +39,8 @@ def makeReservation():
         "endDateTime": endDateTime
     }
 
-    # dict to json object
-    jsonData = json.dumps(data)
-
-    response = requests.post(REQ_ENDPOINT, json=jsonData)
+    # dict to json object and sending it to the server endpoint
+    response = requests.post(REQ_ENDPOINT, json=data)
     if response.status_code != 200:
         print(RSTR + f"Reservation failed:{CEND} {response.text}")
     else:
@@ -52,9 +52,15 @@ def listReservations():
     if response.status_code != 200:
         print(RSTR + f"Failed to list reservations:{CEND} {response.text}")
     else:
-        reservations = response.json()
+        data = json.loads(response.text)
+        reservations = data["reservations"]
         for reservation in reservations:
-            print(reservation)
+            print("Title:", reservation["title"])
+            print("User:", reservation["user"])
+            print("Description:", reservation["description"])
+            print("Start DateTime:", reservation["startDateTime"])
+            print("End DateTime:", reservation["endDateTime"])
+            print()
 
 
 def main():
@@ -64,6 +70,7 @@ def main():
         print("3. Exit\n")
 
         choice = input("Enter choice: ")
+        print()
 
         match choice:
             case "1":

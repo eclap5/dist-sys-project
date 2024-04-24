@@ -1,6 +1,6 @@
 import express, { Router, Response, Request } from "express";
 import mongoose from "mongoose";
-import { Reservation, IReservation } from "../models/Reservations";
+import { Reservation, IReservation } from "../models/Reservation";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,8 +18,8 @@ router.post("/reservations", async (req: Request, res: Response) => {
       !req.body.endDateTime
     ) {
       return res
-        .status(400)
-        .send({ status: "error", message: "Missing fields" });
+        .status(404)
+        .send({ message: "Missing fields" });
     }
     let startDateTime: Date = new Date(req.body.startDateTime);
     let endDateTime: Date = new Date(req.body.endDateTime);
@@ -32,9 +32,9 @@ router.post("/reservations", async (req: Request, res: Response) => {
       endDateTime: endDateTime,
     });
     mongoose.connection.close();
-    res.send({ status: "success", message: "Reservation created" });
-  } catch (error) {
-    res.send({ status: "error", message: error });
+    res.status(200).send({ message: "Reservation created" });
+  } catch (error: any) {
+    res.status(500).send({ message: error });
   }
 });
 
@@ -43,24 +43,25 @@ router.get("/reservations", async (req: Request, res: Response) => {
     await mongoose.connect(mongoDB);
     // if (!req.body.startDateTime || !req.body.endDateTime) {
     //   return res
-    //     .status(400)
+    //     .status(404)
     //     .send({ status: "error", message: "Missing fields" });
     // }
 
-    let startDateTime: Date = new Date(req.body.startDateTime);
-    let endDateTime: Date = new Date(req.body.endDateTime);
+    // let startDateTime: Date = new Date(req.body.startDateTime);
+    // let endDateTime: Date = new Date(req.body.endDateTime);
 
     const reservations: IReservation[] = await Reservation.find(
-      {
-        startDateTime: { $gte: startDateTime },
-        endDateTime: { $lte: endDateTime },
-      },
-      { _id: 0, __v: 0 }
+      // {
+      //   startDateTime: { $gte: startDateTime },
+      //   endDateTime: { $lte: endDateTime },
+      // },
+      // { _id: 0, __v: 0 }
     );
     mongoose.connection.close();
-    res.send({ status: "success", reservations: reservations });
-  } catch (error) {
-    res.send({ status: "error", message: error });
+    res.status(200).send({ reservations: reservations });
+  } catch (error: any) {
+    console.error(`Error during user registration: ${error}`)
+    return res.status(500).json({ error: 'Internal Server Error' })
   }
 });
 
