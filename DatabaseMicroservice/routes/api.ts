@@ -41,11 +41,11 @@ router.post("/reservations", async (req: Request, res: Response) => {
 router.get("/reservations", async (req: Request, res: Response) => {
   try {
     await mongoose.connect(mongoDB);
-    if (!req.body.startDateTime || !req.body.endDateTime) {
-      return res
-        .status(400)
-        .send({ status: "error", message: "Missing fields" });
-    }
+    // if (!req.body.startDateTime || !req.body.endDateTime) {
+    //   return res
+    //     .status(400)
+    //     .send({ status: "error", message: "Missing fields" });
+    // }
 
     let startDateTime: Date = new Date(req.body.startDateTime);
     let endDateTime: Date = new Date(req.body.endDateTime);
