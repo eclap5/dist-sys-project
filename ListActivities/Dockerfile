@@ -6,7 +6,7 @@ COPY ListActivities/package*.json ./
 
 RUN echo "List content in /app" && pwd && ls -la
 
-RUN npm i
+RUN npm ci
 
 COPY ListActivities/. .
 
