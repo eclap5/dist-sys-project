@@ -2,13 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY DatabaseMicroservice/package*.json ./
+COPY DatabaseControllerMicroservice/package*.json ./
 
 RUN echo "List content in /app" && pwd && ls -la
 
 RUN npm ci
 
-COPY DatabaseMicroservice/. .
+COPY DatabaseControllerMicroservice/. .
 
 RUN echo "List content in /app" && pwd && ls -la
 

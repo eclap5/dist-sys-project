@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/server.js\""
   },
   "author": "",

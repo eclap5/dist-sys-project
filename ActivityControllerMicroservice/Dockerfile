@@ -2,13 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY ListActivities/package*.json ./
+COPY ActivityControllerMicroservice/package*.json ./
 
 RUN echo "List content in /app" && pwd && ls -la
 
 RUN npm ci
 
-COPY ListActivities/. .
+COPY ActivityControllerMicroservice/. .
 
 RUN echo "List content in /app" && pwd && ls -la
 

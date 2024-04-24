@@ -1,9 +1,10 @@
 import express, { Express, Request, Response } from "express"
 import morgan from "morgan"
 
-const app: Express = express()
 const PORT: number = 5050
 const URL = 'https://database-controller-app.azurewebsites.net/api/reservations'
+
+const app: Express = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -58,5 +59,5 @@ app.post('/api/reservations', async (req: Request, res: Response) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`)
+    console.log(`Server is running on port ${PORT}`)
 })
