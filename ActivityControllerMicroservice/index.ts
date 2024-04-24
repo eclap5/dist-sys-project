@@ -7,7 +7,7 @@ const URL = 'https://database-controller-app.azurewebsites.net/api/reservations'
 const app: Express = express()
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 interface Reservation {
