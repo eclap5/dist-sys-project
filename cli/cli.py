@@ -2,15 +2,18 @@ import requests
 import json
 from datetime import datetime
 
-REQ_ENDPOINT = "http://localhost:5050/api/reservations"
+REQ_ENDPOINT = "https://activity-controller-app.azurewebsites.net/api/reservations"
+RSTR = "\033[91m"
+GSTR = "\033[92m"
+CEND = "\033[0m"
 
 def validateTime(date, time):
     #Parsing datetime string to a datetime object and checking its validity. 
     try:
-        datetime_object = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
-        return datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+        datetimeObject = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
+        return datetimeObject.strftime("%Y-%m-%dT%H:%M:%S")
     except ValueError:
-        print("Invalid date and/or time format. Use YYYY-MM-DD for dates, HH:MM on starting and ending time.")
+        print(RSTR + "Invalid date and/or time format. Use YYYY-MM-DD for dates, HH:MM on starting and ending time." + CEND)
 
 def makeReservation():
     title = input("Input title: ")
@@ -39,26 +42,26 @@ def makeReservation():
 
     response = requests.post(REQ_ENDPOINT, json=jsonData)
     if response.status_code != 200:
-        print(f"Reservation failed: {response.text}")
+        print(RSTR + f"Reservation failed:{CEND} {response.text}")
     else:
-        print("Reservation created.")
+        print(GSTR + "Reservation created." + CEND)
 
 
 def listReservations():
     response = requests.get(REQ_ENDPOINT)
     if response.status_code != 200:
-        print(f"Failed to list reservations: {response.text}")
+        print(RSTR + f"Failed to list reservations:{CEND} {response.text}")
     else:
         reservations = response.json()
         for reservation in reservations:
             print(reservation)
 
 
-def menu():
+def main():
     while True:
-        print("1. Make a reservation")
+        print("\n1. Make a reservation")
         print("2. List reservations")
-        print("3. Exit")
+        print("3. Exit\n")
 
         choice = input("Enter choice: ")
 
@@ -68,9 +71,10 @@ def menu():
             case "2":
                 listReservations()
             case "3":
+                print("Exiting...\n")
                 break
             case _:
-                print("Invalid input. Try 1-3.")
+                print(RSTR + "Invalid input. Try 1-3." + CEND)
 
 if __name__ == "__main__":
-    menu()
+    main()
