@@ -6,9 +6,11 @@ COPY DatabaseMicroservice/package*.json ./
 
 RUN echo "List content in /app" && pwd && ls -la
 
-RUN npm i
+RUN npm ci
 
 COPY DatabaseMicroservice/. .
+
+RUN echo "List content in /app" && pwd && ls -la
 
 EXPOSE 3001
 

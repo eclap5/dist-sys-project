@@ -2,11 +2,15 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY ListActivities/package*.json ./
+
+RUN echo "List content in /app" && pwd && ls -la
 
 RUN npm i
 
-COPY . .
+COPY ListActivities/. .
+
+RUN echo "List content in /app" && pwd && ls -la
 
 EXPOSE 5050
 
