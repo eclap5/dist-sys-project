@@ -13,9 +13,6 @@ jobs:
       - name: Checkout Repository to Runner Machine
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: npm ci --verbose
-
       - name: Login to ACR
         uses: azure/docker-login@v1
         with:
