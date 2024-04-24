@@ -16,11 +16,11 @@ jobs:
       - name: Login to ACR
         uses: azure/docker-login@v1
         with:
-          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR.PASSWORD }}
+          login-server: reservationsacr.azurecr.io
+          username: reservationsacr
+          password: ${{ secrets.ACR_PASSWORD_1 }}
 
-      - name: Build Docker Images
+      - name: Build and Push Docker Images
         run: |
           docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }} .
           docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} .
