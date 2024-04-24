@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package*.json .
 
+RUN echo "List dir content" && ls -la
+
 RUN npm i
 
 COPY . .
