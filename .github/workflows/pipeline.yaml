@@ -1,0 +1,41 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout Repository to Runner Machine
+        uses: actions/checkout@v2
+
+      - name: Login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR.PASSWORD }}
+
+      - name: Build Docker Images
+        run: |
+          docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }} .
+          docker build -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} .
+          docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }}
+          docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }}
+
+      - name: Deploy to Azure Web App for Containers (database controller)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.WEB_APP_NAME_1 }}
+          images: '${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }}'
+
+      - name: Deploy to Azure Web App for Containers (activity controller)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.WEB_APP_NAME_2 }}
+          images: '${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }}'
+          
