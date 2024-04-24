@@ -22,8 +22,8 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          docker build --progress=plain -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }} -f DatabaseMicroservice/Dockerfile .
-          docker build --no-cache -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} -f ListActivities/Dockerfile .
+          docker build --progress=plain -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }} -f DatabaseControllerMicroservice/Dockerfile .
+          docker build --no-cache -t  ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }} -f ActivityControllerMicroservice/Dockerfile .
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }}
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }}
 
