@@ -41,22 +41,7 @@ router.post("/reservations", async (req: Request, res: Response) => {
 router.get("/reservations", async (req: Request, res: Response) => {
   try {
     await mongoose.connect(mongoDB);
-    // if (!req.body.startDateTime || !req.body.endDateTime) {
-    //   return res
-    //     .status(404)
-    //     .send({ status: "error", message: "Missing fields" });
-    // }
-
-    // let startDateTime: Date = new Date(req.body.startDateTime);
-    // let endDateTime: Date = new Date(req.body.endDateTime);
-
-    const reservations: IReservation[] = await Reservation.find(
-      // {
-      //   startDateTime: { $gte: startDateTime },
-      //   endDateTime: { $lte: endDateTime },
-      // },
-      // { _id: 0, __v: 0 }
-    );
+    const reservations: IReservation[] = await Reservation.find();
     mongoose.connection.close();
     res.status(200).send({ reservations: reservations });
   } catch (error: any) {

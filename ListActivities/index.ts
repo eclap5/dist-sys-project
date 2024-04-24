@@ -3,6 +3,7 @@ import morgan from "morgan"
 
 const app: Express = express()
 const PORT: number = 5050
+const URL = 'https://database-controller-app.azurewebsites.net/api/reservations'
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -19,7 +20,7 @@ interface Reservation {
 
 app.get('/api/reservations', async (req: Request, res: Response) => {
     try {
-        const response = await fetch('http://localhost:3001/api/reservations', {
+        const response = await fetch(URL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +42,7 @@ app.post('/api/reservations', async (req: Request, res: Response) => {
     console.log(req.body)
     const reservation: Reservation = req.body
 
-    const response = await fetch('http://localhost:3001/api/reservations', {
+    const response = await fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -57,5 +58,5 @@ app.post('/api/reservations', async (req: Request, res: Response) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`)
+    console.log(`Server is running on ${PORT}`)
 })
