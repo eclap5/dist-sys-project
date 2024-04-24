@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json .
 
-RUN echo "List dir content" && ls -la
+RUN echo "List content in /app" && pwd && ls -la
 
 RUN npm i
 
