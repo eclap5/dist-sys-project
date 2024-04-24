@@ -5,17 +5,16 @@ interface IReservation extends Document {
   user: string;
   title: string;
   description: string;
-  startDateTime: string;
-  endDateTime: string;
+  startDateTime: Date;
+  endDateTime: Date;
 }
 
 let reservationSchema: Schema = new Schema({
-  _id: { type: String, required: true },
   user: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  startDateTime: { type: String, required: true },
-  endDateTime: { type: String, required: true },
+  startDateTime: { type: Date, required: true },
+  endDateTime: { type: Date, required: true },
 });
 
 const Reservation: mongoose.Model<IReservation> = mongoose.model<IReservation>(
