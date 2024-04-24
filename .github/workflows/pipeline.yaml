@@ -27,6 +27,11 @@ jobs:
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_1 }}:${{ github.sha }}
           docker push ${{ secrets.ACR_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME_2 }}:${{ github.sha }}
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App for Containers (database controller)
         uses: azure/webapps-deploy@v3
         with:
