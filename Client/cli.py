@@ -2,7 +2,7 @@ import requests
 import json
 from datetime import datetime
 
-REQ_ENDPOINT = "https://activity-controller-app.azurewebsites.net/api/reservations"
+REQ_ENDPOINT = "https://activity-controller-app.azurewebsites.net/reservations"
 RSTR = "\033[91m"
 GSTR = "\033[92m"
 CEND = "\033[0m"
